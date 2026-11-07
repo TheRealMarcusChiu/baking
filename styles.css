@@ -62,6 +62,7 @@ a:hover, a:active, nav button:hover, nav button:active, summary:hover { color: v
 /* Width from the viewport height (0.75 = the photo's ratio), so the whole uncropped photo fits the first screen. */
 .hero { margin: 0 auto; width: min(100% - 40px, 510px, 54vh); width: min(100% - 40px, 510px, 54svh); }
 .hero img { display: block; width: 100%; height: auto; }
+.hero figcaption { margin-top: 8px; color: var(--muted); font-size: 16px; line-height: 1.4; text-align: center; }
 
 .recipe-toggle summary { display: flex; justify-content: center; width: max-content; margin: 20px auto 0; list-style: none; }
 .recipe-toggle summary::-webkit-details-marker { display: none; }

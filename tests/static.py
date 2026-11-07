@@ -129,7 +129,9 @@ assert img["fetchpriority"] == "high" and img["loading"] == "eager"
 assert webp_size(ROOT / img["src"]) == (1440, 1920)
 
 assert [a.get("class") for t, a in page.tags if t == "figure"] == ["hero"] + ["process"] * len(PROCESS)
-assert sum(t == "figcaption" for t, a in page.tags) == len(PROCESS)
+assert sum(t == "figcaption" for t, a in page.tags) == len(PROCESS) + 1
+assert re.search(r'<figure class="hero"[^>]*>\s*<img [^>]*src="assets/cake\.webp"[^>]*>\s*'
+                 r"<figcaption>yeaaa i know - looks like a stone wheel</figcaption>\s*</figure>", HTML)
 assert [a["src"] for t, a in page.tags if t == "img"] == ["assets/cake.webp"] + [p[2] for p in PROCESS]
 assert len(page.figures) == len(PROCESS)
 for fig, (step, count, src, caption, alt) in zip(page.figures, PROCESS):
