@@ -24,7 +24,7 @@ function frame() {
   y += (targetY - y) * 0.14;
   if (Math.abs(targetX - x) + Math.abs(targetY - y) < 0.002) { x = targetX; y = targetY; } else request();
   img.style.transform = x || y
-    ? `perspective(1200px) rotateX(${(-y * 2).toFixed(3)}deg) rotateY(${(x * 2).toFixed(3)}deg) translate(${(x * 4).toFixed(2)}px, ${(y * 4).toFixed(2)}px)`
+    ? `perspective(1000px) rotateX(${(-y * 6).toFixed(3)}deg) rotateY(${(x * 6).toFixed(3)}deg) translate(${(x * 12).toFixed(2)}px, ${(y * 12).toFixed(2)}px)`
     : "";
 }
 function request() {
