@@ -47,6 +47,8 @@ PROCESS = [
      "White, glossy whipped egg white foam in swirled folds, filling a bowl."),
     (14, 15, "assets/cooling-cake.webp", "Cooling the cake upside down",
      "A baked cake still in its metal tube pan, turned upside down with the pan's center tube resting on the neck of a green glass bottle."),
+    (15, 16, "assets/finished-cake.webp", "Finished matcha chiffon cake",
+     "Finished green matcha chiffon ring cake on a white carrier base, with a blue-handled knife beside it."),
 ]
 NOT_IN_SOURCE = ["toothpick", "skewer", "grease", "serves", "servings", "yield", "prep time",
                  "calorie", "nutrition", "refrigerat", "storage", "vegetable oil", "large egg", "tested"]
