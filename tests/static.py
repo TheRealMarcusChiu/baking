@@ -148,6 +148,21 @@ assert "Photos: the finished cake and recipe process." in HTML
 
 assert "recipe" in page.ids and any(a.get("href") == "#recipe" for t, a in page.tags if t == "a")
 assert 'onclick="window.print()"' in HTML
+# Showcase: title and photo first, then one closed native disclosure holding everything else.
+order = [HTML.index(s) for s in ("<h1>", 'class="hero"', '<details class="recipe-toggle">', "<summary>View recipe</summary>",
+                                  'href="#recipe"', "window.print()", 'class="intro"', 'id="recipe"', 'id="notes"',
+                                  "<footer>", "</details>")]
+assert order == sorted(order), order
+assert HTML.count("<details") == 1 and "<details open" not in HTML and HTML.count("<summary") == 1
+assert HTML.count("<button") == 1 and HTML.count("<nav") == 1
+assert '<script src="showcase.js" defer></script>' in HTML and (ROOT / "showcase.js").is_file()
+JS = (ROOT / "showcase.js").read_text(encoding="utf-8")
+for needle in ('"#recipe"', "hashchange", "beforeprint", "afterprint", "prefers-reduced-motion: reduce",
+               "pointer: fine", '"touch"', "IntersectionObserver", "visibilitychange", "cancelAnimationFrame"):
+    assert needle in JS, needle
+assert not re.search(r"localStorage|sessionStorage|will-change|WebGL|import ", JS + CSS)
+assert '<link rel="icon" href="favicon.svg" type="image/svg+xml">' in HTML
+assert "#b7c785" in (ROOT / "favicon.svg").read_text(encoding="utf-8")
 assert 'rel="canonical" href="https://git.marcuschiu.com/baking/"' in HTML
 assert 'content="https://git.marcuschiu.com/baking/assets/cake.webp"' in HTML
 

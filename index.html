@@ -17,22 +17,26 @@
 <meta property="og:image:height" content="1920">
 <meta property="og:image:alt" content="A whole matcha chiffon cake, olive green with a porous crumb and a hole through its center, on a white plate with a knife beside it.">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:,">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
+<script src="showcase.js" defer></script>
 </head>
 <body>
 <header class="masthead">
   <h1>Matcha Chiffon Cake</h1>
-  <nav aria-label="Page">
-    <a href="#recipe">Jump to recipe</a>
-    <button type="button" onclick="window.print()">Print recipe</button>
-  </nav>
 </header>
 
 <main>
   <figure class="hero">
     <img src="assets/cake.webp" width="1440" height="1920" fetchpriority="high" loading="eager" decoding="async" alt="A whole matcha chiffon cake, olive green with a porous crumb and a hole through its center, on a white plate with a knife beside it.">
   </figure>
+
+  <details class="recipe-toggle">
+  <summary>View recipe</summary>
+  <nav aria-label="Recipe">
+    <a href="#recipe">Link to this recipe</a>
+    <button type="button" onclick="window.print()">Print recipe</button>
+  </nav>
 
   <div class="intro">
     <p>Egg yolks, oil, cake flour and sifted matcha in one bowl. Egg whites whipped to stiff peaks in another. Folded together until just mixed, then baked in a tube pan.</p>
@@ -141,10 +145,11 @@
       <li>Cool the cake inverted, and take it out of the tube pan once it is cool to touch, about 2 hours.</li>
     </ul>
   </section>
-</main>
 
-<footer>
-  <p>Photos: the finished cake and recipe process. Set in Newsreader and JetBrains Mono, under the SIL Open Font License (<a href="assets/fonts/Newsreader-OFL.txt">Newsreader</a>, <a href="assets/fonts/JetBrainsMono-OFL.txt">JetBrains Mono</a>).</p>
-</footer>
+  <footer>
+    <p>Photos: the finished cake and recipe process. Set in Newsreader and JetBrains Mono, under the SIL Open Font License (<a href="assets/fonts/Newsreader-OFL.txt">Newsreader</a>, <a href="assets/fonts/JetBrainsMono-OFL.txt">JetBrains Mono</a>).</p>
+  </footer>
+  </details>
+</main>
 </body>
 </html>

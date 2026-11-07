@@ -1,6 +1,16 @@
 # Matcha Chiffon Cake
 
-A single static recipe page: plain HTML and CSS, no build step, no dependencies, and no third-party requests at runtime.
+A single static recipe page: plain HTML and CSS plus one small script, no build step, no dependencies, and no third-party requests at runtime.
+
+## Showcase
+
+The first screen is the title, the whole original cake photograph and one **View recipe** control. The recipe sits in a native `<details>` element, so it opens with a click or the keyboard even without JavaScript. Links to `#recipe` open it, and printing always includes the full recipe on one page, whether it is open or closed.
+
+`showcase.js` tilts the photograph by at most 2° (plus a few pixels of shift) as a mouse moves across the window, easing back to rest at the center, when the pointer leaves the window, or when the window loses focus. It is a flat photograph turning slightly in CSS perspective, not a 3D model of the cake: no depth map, WebGL, cropping or recoloring. The photo is loaded and shown first; the motion starts only afterwards. It stays still for touch, coarse pointers and reduced-motion settings, and animation frames run only while the photo is settling after pointer movement, never while idle, hidden or scrolled out of view.
+
+Limitations: process photographs inside the closed recipe are lazy-loaded only when JavaScript is on. Browsers turn native lazy loading off when scripting is disabled, so without JavaScript all of them download up front. The motion was checked in Chromium and WebKit test engines, not on physical Safari or iOS devices.
+
+Sources: web.dev, "How to create high-performance CSS animations"; MDN, "Animation performance and frame rate"; the HTML Standard's lazy-loading rules.
 
 ## Preview
 
@@ -16,7 +26,7 @@ Then open <http://localhost:8000/>. All asset paths are relative, so the page al
 python3 tests/static.py
 ```
 
-Checks the exact recipe text, the asset references and the image dimensions, using only the Python standard library.
+Checks the exact recipe text, the asset references, the image dimensions and the showcase structure (one closed disclosure, recipe, print and link inside it), using only the Python standard library.
 
 ## Source faithfulness
 
