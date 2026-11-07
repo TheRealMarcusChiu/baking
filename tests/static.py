@@ -37,12 +37,24 @@ METHOD = [
     "Invert to cool.",
     "Remove from tube-pan when cool to touch (~2 hours).",
 ]
+# (index into METHOD, <li> count when the figure opens, src, caption, alt)
+PROCESS = [
+    (1, 2, "assets/egg-yolk-mixture.webp", "Egg yolk mixture",
+     "Yellow egg yolk mixture in the bottom of a stainless steel mixer bowl, with a wire whisk attachment raised above it."),
+    (2, 7, "assets/matcha-batter.webp", "Matcha batter",
+     "Glossy green matcha batter in the bottom of a metal bowl, seen from above."),
+    (9, 10, "assets/whipped-egg-whites.webp", "Whipped egg whites",
+     "White, glossy whipped egg white foam in swirled folds, filling a bowl."),
+    (14, 15, "assets/cooling-cake.webp", "Cooling the cake upside down",
+     "A baked cake still in its metal tube pan, turned upside down with the pan's center tube resting on the neck of a green glass bottle."),
+]
 NOT_IN_SOURCE = ["toothpick", "skewer", "grease", "serves", "servings", "yield", "prep time",
                  "calorie", "nutrition", "refrigerat", "storage", "vegetable oil", "large egg", "tested"]
 
 
 class Page(HTMLParser):
-    """Collects each <li> in document order, per section id, with nested lists flattened."""
+    """Collects each <li> in document order, per section id, with nested lists flattened.
+    Figures inside an <li> are kept apart in self.figures, so captions never count as recipe text."""
     def __init__(self):
         super().__init__()
         self.tags = []
@@ -50,6 +62,8 @@ class Page(HTMLParser):
         self.ids = set()
         self.section = None
         self.open = []
+        self.figures = []
+        self.figure = None
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
@@ -60,13 +74,23 @@ class Page(HTMLParser):
         if tag == "li":
             self.open.append(len(self.items.setdefault(self.section, [])))
             self.items[self.section].append("")
+        if tag == "figure" and self.open:
+            self.figure = {"section": self.section, "depth": len(self.open), "count": len(self.items[self.section]),
+                           "text": self.items[self.section][self.open[-1]], "caption": ""}
+        if tag == "img" and self.figure:
+            self.figure["img"] = attrs
 
     def handle_endtag(self, tag):
         if tag == "li":
             self.open.pop()
+        if tag == "figure" and self.figure:
+            self.figures.append(self.figure)
+            self.figure = None
 
     def handle_data(self, data):
-        if self.open:
+        if self.figure:
+            self.figure["caption"] += data
+        elif self.open:
             self.items[self.section][self.open[-1]] += data
 
 
@@ -101,6 +125,24 @@ assert img["src"] == "assets/cake.webp" and img["alt"]
 assert (img["width"], img["height"]) == ("1440", "1920")
 assert img["fetchpriority"] == "high" and img["loading"] == "eager"
 assert webp_size(ROOT / img["src"]) == (1440, 1920)
+
+assert [a.get("class") for t, a in page.tags if t == "figure"] == ["hero"] + ["process"] * len(PROCESS)
+assert sum(t == "figcaption" for t, a in page.tags) == len(PROCESS)
+assert [a["src"] for t, a in page.tags if t == "img"] == ["assets/cake.webp"] + [p[2] for p in PROCESS]
+assert len(page.figures) == len(PROCESS)
+for fig, (step, count, src, caption, alt) in zip(page.figures, PROCESS):
+    # Exact step text before the figure plus the exact <li> check above means nothing follows it.
+    assert (fig["section"], fig["depth"], fig["count"]) == ("method", 1, count), (src, fig)
+    assert " ".join(fig["text"].split()) == METHOD[step], (src, fig["text"])
+    assert " ".join(fig["caption"].split()) == caption, (src, fig["caption"])
+    a = fig["img"]
+    assert (a["src"], a["alt"]) == (src, alt), a
+    assert (a["width"], a["height"], a["loading"], a["decoding"]) == ("960", "1280", "lazy", "async"), a
+    assert webp_size(ROOT / src) == (960, 1280), src
+assert ".process { margin: 16px 0 28px; width: 280px; max-width: 100%; }" in CSS
+assert ".process img { display: block; width: 100%; height: auto; }" in CSS
+assert "nav, .hero, .intro, .process, footer { display: none; }" in CSS
+assert "Photos: the finished cake and recipe process." in HTML
 
 assert "recipe" in page.ids and any(a.get("href") == "#recipe" for t, a in page.tags if t == "a")
 assert 'onclick="window.print()"' in HTML

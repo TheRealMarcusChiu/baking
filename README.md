@@ -25,4 +25,5 @@ The ingredients, quantities, sequence and portion counts come from the recipe's 
 ## Credits
 
 - `assets/cake.webp` is the author's own photograph of the finished cake, supplied for this page.
+- `assets/egg-yolk-mixture.webp`, `assets/matcha-batter.webp`, `assets/whipped-egg-whites.webp` and `assets/cooling-cake.webp` are photographs of the recipe process, supplied for this page.
 - [Newsreader](assets/fonts/Newsreader-OFL.txt) and [JetBrains Mono](assets/fonts/JetBrainsMono-OFL.txt) are used under the SIL Open Font License 1.1 and served from this repository.
