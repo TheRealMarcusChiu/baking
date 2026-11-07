@@ -120,5 +120,10 @@ for font in ["Newsreader.ttf", "Newsreader-Italic.ttf", "JetBrainsMono.ttf", "Ne
 assert (ROOT / ".nojekyll").is_file()
 assert "gradient" not in CSS and "@import" not in CSS
 assert "@media print" in CSS and "prefers-reduced-motion" in CSS
+assert '<meta name="theme-color" content="#0f0c09">' in HTML
+for token in ["--background: #0f0c09", "--primary: #ece1cf", "--body: #cdc1ab", "--muted: #a99e88",
+              "--border: #2a2218", "--panel: #14110b", "--matcha: #b7c785"]:
+    assert token in CSS, token
+assert not re.search(r"--(ivory|forest|sage)\b", CSS)
 
 print("ok")

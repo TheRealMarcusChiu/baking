@@ -3,10 +3,13 @@
 @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono.ttf") format("truetype"); font-style: normal; font-weight: 100 800; font-display: swap; }
 
 :root {
-  --ivory: #f7f8f0;
-  --forest: #263c29;
-  --sage: #bec7ab;
-  --matcha: #758348; /* below 4.5:1 on ivory: rules and markers only, never text */
+  --background: #0f0c09;
+  --primary: #ece1cf;
+  --body: #cdc1ab;
+  --muted: #a99e88;
+  --border: #2a2218;
+  --panel: #14110b;
+  --matcha: #b7c785;
 }
 
 * { box-sizing: border-box; }
@@ -19,20 +22,22 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--ivory);
-  color: var(--forest);
+  background: var(--background);
+  color: var(--body);
   font: 400 19px/1.7 "Newsreader", Georgia, serif;
   overflow-wrap: break-word;
 }
 
-h1, h2, h3 { font-style: italic; font-weight: 500; margin: 0; }
+::selection { background: var(--matcha); color: var(--background); }
+
+h1, h2, h3 { color: var(--primary); font-style: italic; font-weight: 500; margin: 0; }
 h1 { font-size: 44px; line-height: 1.1; letter-spacing: -.01em; }
 h2 { font-size: 31px; line-height: 1.18; letter-spacing: .01em; }
 h3 { font-size: 23px; line-height: 1.3; margin: 40px 0 10px; }
 h2 + h3, h2 + .bowls > div:first-child > h3 { margin-top: 24px; }
 
-a { color: inherit; text-decoration-color: var(--matcha); text-underline-offset: 3px; }
-:focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; border-radius: 1px; }
+a { color: var(--matcha); text-decoration-color: var(--matcha); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--matcha); outline-offset: 3px; border-radius: 1px; }
 
 .masthead {
   max-width: 1040px;
@@ -53,7 +58,7 @@ nav a, nav button {
   padding: 0;
   border: 0;
   background: none;
-  color: inherit;
+  color: var(--matcha);
   cursor: pointer;
   font: 400 13px/1 "JetBrains Mono", ui-monospace, monospace;
   text-decoration: underline;
@@ -61,6 +66,7 @@ nav a, nav button {
   text-underline-offset: 4px;
 }
 nav a:hover, nav button:hover { text-decoration-thickness: 2px; }
+a:hover, a:active, nav button:hover, nav button:active { color: var(--primary); }
 
 /* Fixed width, not max-height: the intrinsic ratio reserves the 405x540 box before the photo loads. */
 .hero { margin: 0 auto; width: 405px; max-width: 100%; }
@@ -68,8 +74,8 @@ nav a:hover, nav button:hover { text-decoration-thickness: 2px; }
 
 .intro { max-width: 620px; margin: 72px auto 0; padding: 0 40px; box-sizing: content-box; }
 .intro p { margin: 0; font-size: 23px; line-height: 1.55; text-align: center; }
-.intro dl { margin: 48px 0 0; border-top: 1px solid var(--sage); }
-.intro dl div { display: grid; grid-template-columns: 6em 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--sage); }
+.intro dl { margin: 48px 0 0; border-top: 1px solid var(--border); }
+.intro dl div { display: grid; grid-template-columns: 6em 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .intro dt { font-style: italic; font-weight: 500; }
 .intro dd { margin: 0; }
 
@@ -87,14 +93,15 @@ nav a:hover, nav button:hover { text-decoration-thickness: 2px; }
 ul, ol { margin: 0; padding-left: 1.3em; }
 li { margin: 0 0 8px; }
 li::marker { color: var(--matcha); }
-ol > li::marker { color: var(--forest); font-style: italic; font-weight: 500; }
+ol > li::marker { color: var(--matcha); font-style: italic; font-weight: 500; }
 ol ul { margin-top: 8px; }
 
 .swap {
   display: block;
   margin: 12px 0 4px -1.3em;
   padding: 14px 18px;
-  background: var(--sage);
+  background: var(--panel);
+  color: var(--primary);
   font-weight: 500;
   line-height: 1.45;
 }
@@ -102,8 +109,8 @@ ol ul { margin-top: 8px; }
 .notes { max-width: 620px; margin: 112px auto 0; padding: 0 40px; box-sizing: content-box; }
 .notes ul { margin-top: 20px; }
 
-footer { max-width: 620px; margin: 112px auto 0; padding: 24px 40px 56px; box-sizing: content-box; font-size: 16px; line-height: 1.6; }
-footer p { margin: 0; padding-top: 20px; border-top: 1px solid var(--sage); }
+footer { max-width: 620px; margin: 112px auto 0; padding: 24px 40px 56px; box-sizing: content-box; color: var(--muted); font-size: 16px; line-height: 1.6; }
+footer p { margin: 0; padding-top: 20px; border-top: 1px solid var(--border); }
 
 @media (max-width: 800px) {
   .recipe { grid-template-columns: minmax(0, 1fr); gap: 64px; margin-top: 80px; }
@@ -125,6 +132,8 @@ footer p { margin: 0; padding-top: 20px; border-top: 1px solid var(--sage); }
   @page { margin: 1.5cm; }
   html { scroll-behavior: auto; }
   body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.4; }
+  h1, h2, h3, a, strong, .swap { color: #000; }
+  a { text-decoration-color: #000; }
   nav, .hero, .intro, footer { display: none; }
   .masthead { display: block; max-width: none; padding: 0 0 8pt; }
   h1 { font-size: 20pt; }
